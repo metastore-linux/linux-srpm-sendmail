@@ -1,9 +1,9 @@
 # package options
-%global with_tls	yes
-%global with_sasl2	yes
-%global with_milter	yes
-%global with_ldap	yes
-%global enable_pie	yes
+%global with_tls    yes
+%global with_sasl2  yes
+%global with_milter yes
+%global with_ldap   yes
+%global enable_pie  yes
 
 %global sendmailcf %{_datadir}/sendmail-cf
 %global stdir %{_localstatedir}/log/mail
@@ -14,118 +14,118 @@
 # hardened build if not overridden
 %{!?_hardened_build:%global _hardened_build 1}
 
-Name:               sendmail
-Version:            8.15.2
-Release:            21%{?dist}
-Summary:            A widely used Mail Transport Agent (MTA)
-Group:              System Environment/Daemons
-License:            Sendmail
-URL:                https://www.sendmail.org/
+Name:                   sendmail
+Version:                8.15.2
+Release:                21%{?dist}
+Summary:                A widely used Mail Transport Agent (MTA)
+Group:                  System Environment/Daemons
+License:                Sendmail
+URL:                    https://www.sendmail.org/
 
-Source0:            ftp://ftp.sendmail.org/pub/sendmail/sendmail.%{version}.tar.gz
+Source0:                ftp://ftp.sendmail.org/pub/sendmail/sendmail.%{version}.tar.gz
 # Systemd Service file
-Source1:            sendmail.service
+Source1:                sendmail.service
 # NetworkManager dispatch script
-Source2:            sendmail.nm-dispatcher
+Source2:                sendmail.nm-dispatcher
 # script to generate db and cf files
-Source3:            sendmail.etc-mail-make
+Source3:                sendmail.etc-mail-make
 # default sysconfig file
-Source4:            sendmail.sysconfig
+Source4:                sendmail.sysconfig
 # default /etc/mail/Makefile
-Source5:            sendmail.etc-mail-Makefile
+Source5:                sendmail.etc-mail-Makefile
 # default sendmail.mc
-Source6:            sendmail-redhat.mc
+Source6:                sendmail-redhat.mc
 # Systemd Service file
-Source7:            sm-client.service
+Source7:                sm-client.service
 # pam config
-Source8:            sendmail.pam
+Source8:                sendmail.pam
 # SysV initscript
-Source9:            sendmail.init
+Source9:                sendmail.init
 # sasl2 config
-Source11:           Sendmail-sasl2.conf
+Source11:               Sendmail-sasl2.conf
 # default /etc/mail/access
-Source12:           sendmail-etc-mail-access
+Source12:               sendmail-etc-mail-access
 # default /etc/mail/domaintable
-Source13:           sendmail-etc-mail-domaintable
+Source13:               sendmail-etc-mail-domaintable
 # default /etc/mail/local-host-names
-Source14:           sendmail-etc-mail-local-host-names
+Source14:               sendmail-etc-mail-local-host-names
 # default /etc/mail/mailertable
-Source15:           sendmail-etc-mail-mailertable
+Source15:               sendmail-etc-mail-mailertable
 # default /etc/mail/trusted-users
-Source16:           sendmail-etc-mail-trusted-users
+Source16:               sendmail-etc-mail-trusted-users
 # default /etc/mail/virtusertable
-Source17:           sendmail-etc-mail-virtusertable
+Source17:               sendmail-etc-mail-virtusertable
 # Signature
-Source900:          ftp://ftp.sendmail.org/pub/sendmail/sendmail.%{version}.tar.gz.sig
+Source900:              ftp://ftp.sendmail.org/pub/sendmail/sendmail.%{version}.tar.gz.sig
 
 # fix man path and makemap man page
-Patch3:             sendmail-8.14.4-makemapman.patch
+Patch3:                 sendmail-8.14.4-makemapman.patch
 # fix smrsh paths
-Patch4:             sendmail-8.14.3-smrsh_paths.patch
+Patch4:                 sendmail-8.14.3-smrsh_paths.patch
 # fix sm-client.pid path
-Patch7:             sendmail-8.14.9-pid.patch
+Patch7:                 sendmail-8.14.9-pid.patch
 # fix sendmail man page
-Patch10:            sendmail-8.15.1-manpage.patch
+Patch10:                sendmail-8.15.1-manpage.patch
 # compile with -fpie
-Patch11:            sendmail-8.15.1-dynamic.patch
+Patch11:                sendmail-8.15.1-dynamic.patch
 # fix cyrus path
-Patch12:            sendmail-8.13.0-cyrus.patch
+Patch12:                sendmail-8.13.0-cyrus.patch
 # fix aliases.db path
-Patch13:            sendmail-8.15.1-aliases_dir.patch
+Patch13:                sendmail-8.15.1-aliases_dir.patch
 # fix vacation Makefile
-Patch14:            sendmail-8.14.9-vacation.patch
+Patch14:                sendmail-8.14.9-vacation.patch
 # remove version information from sendmail helpfile
-Patch15:            sendmail-8.14.9-noversion.patch
+Patch15:                sendmail-8.14.9-noversion.patch
 # do not accept localhost.localdomain as valid address from SMTP
-Patch16:            sendmail-8.15.2-localdomain.patch
+Patch16:                sendmail-8.15.2-localdomain.patch
 # build libmilter as DSO
-Patch17:            sendmail-8.14.3-sharedmilter.patch
+Patch17:                sendmail-8.14.3-sharedmilter.patch
 # skip colon separator when parsing service name in ServiceSwitchFile
-Patch18:            sendmail-8.15.2-switchfile.patch
+Patch18:                sendmail-8.15.2-switchfile.patch
 # silence warning about missing sasl2 config in /usr/lib*, now in /etc/sasl2
-Patch23:            sendmail-8.14.8-sasl2-in-etc.patch
+Patch23:                sendmail-8.14.8-sasl2-in-etc.patch
 # add QoS support, patch from Philip Prindeville <philipp@fedoraproject.org>
 # upstream reserved option ID 0xe7 for testing of this new feature, #576643
-Patch25:            sendmail-8.15.2-qos.patch
-Patch26:            sendmail-8.15.2-libmilter-socket-activation.patch
+Patch25:                sendmail-8.15.2-qos.patch
+Patch26:                sendmail-8.15.2-libmilter-socket-activation.patch
 # patch provided by upstream
-Patch27:            sendmail-8.15.2-smtp-session-reuse-fix.patch
-Patch28:            sendmail-8.15.2-openssl-1.1.0-fix.patch
+Patch27:                sendmail-8.15.2-smtp-session-reuse-fix.patch
+Patch28:                sendmail-8.15.2-openssl-1.1.0-fix.patch
 # patch taken from Debian
 # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=807258
-Patch29:            sendmail-8.15.2-format-security.patch
+Patch29:                sendmail-8.15.2-format-security.patch
 # rhbz#1473971
-Patch30:            sendmail-8.15.2-openssl-1.1.0-ecdhe-fix.patch
+Patch30:                sendmail-8.15.2-openssl-1.1.0-ecdhe-fix.patch
 
-BuildRoot:          %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:      libdb-devel
-BuildRequires:      hesiod-devel
-BuildRequires:      groff
-BuildRequires:      ghostscript
-BuildRequires:      m4
-BuildRequires:      systemd
-BuildRequires:      setup >= 2.5.31-1
+BuildRoot:              %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:          libdb-devel
+BuildRequires:          hesiod-devel
+BuildRequires:          groff
+BuildRequires:          ghostscript
+BuildRequires:          m4
+BuildRequires:          systemd
+BuildRequires:          setup >= 2.5.31-1
 %if "%{with_tls}" == "yes"
-BuildRequires:      openssl-devel
+BuildRequires:          openssl-devel
 %endif
 %if "%{with_ldap}" == "yes"
-BuildRequires:      openldap-devel openssl-devel
+BuildRequires:          openldap-devel openssl-devel
 %endif
 %if "%{with_sasl2}" == "yes"
-BuildRequires:      cyrus-sasl-devel openssl-devel
-Requires:           %{_sbindir}/saslauthd
+BuildRequires:          cyrus-sasl-devel openssl-devel
+Requires:               %{_sbindir}/saslauthd
 %endif
-Requires(pre):      shadow-utils
-Requires(post):     systemd systemd-sysv coreutils %{_sbindir}/alternatives
-Requires(preun):    systemd %{_sbindir}/alternatives
-Requires(postun):   systemd coreutils %{_sbindir}/alternatives
+Requires(pre):          shadow-utils
+Requires(post):         systemd systemd-sysv coreutils %{_sbindir}/alternatives
+Requires(preun):        systemd %{_sbindir}/alternatives
+Requires(postun):       systemd coreutils %{_sbindir}/alternatives
 %if 0%{?fedora} < 23
-Requires:           initscripts
+Requires:               initscripts
 %endif
-Requires:           procmail
-Requires:           bash >= 2.0
-Requires:           setup >= 2.5.31-1
-Provides:           MTA smtpdaemon server(smtp)
+Requires:               procmail
+Requires:               bash >= 2.0
+Requires:               setup >= 2.5.31-1
+Provides:               MTA smtpdaemon server(smtp)
 
 %description
 The Sendmail program is a very widely used Mail Transport Agent (MTA).
@@ -144,12 +144,12 @@ Sendmail, you can install the sendmail-doc package.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package sysvinit
-Summary:            SysV initscript for sendmail
-Group:              System Environment/Daemons
-BuildArch:          noarch
-Requires:           %{name} = %{version}-%{release}
-Requires(preun):    chkconfig
-Requires(post):     chkconfig
+Summary:                SysV initscript for sendmail
+Group:                  System Environment/Daemons
+BuildArch:              noarch
+Requires:               %{name} = %{version}-%{release}
+Requires(preun):        chkconfig
+Requires(post):         chkconfig
 
 %description sysvinit
 This package contains the SysV initscript.
@@ -160,10 +160,10 @@ This package contains the SysV initscript.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package doc
-Summary:            Documentation about the Sendmail Mail Transport Agent program
-Group:              Documentation
-BuildArch:          noarch
-Requires:           sendmail = %{version}-%{release}
+Summary:                Documentation about the Sendmail Mail Transport Agent program
+Group:                  Documentation
+BuildArch:              noarch
+Requires:               sendmail = %{version}-%{release}
 
 %description doc
 This package contains the Sendmail Installation and Operation Guide (PDF),
@@ -175,13 +175,13 @@ contributed scripts and tools for use with Sendmail.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package milter-devel
-Summary:            Development files for the sendmail milter library
-Group:              Development/Libraries
-Requires:           sendmail-milter%{?_isa} = %{version}-%{release}
+Summary:                Development files for the sendmail milter library
+Group:                  Development/Libraries
+Requires:               sendmail-milter%{?_isa} = %{version}-%{release}
 # The following Provides: and Obsoletes: can be dropped in f28+
-Provides:           sendmail-devel%{?_isa} = %{version}-%{release}
-Provides:           sendmail-devel = %{version}-%{release}
-Obsoletes:          sendmail-devel < 8.15.2-8
+Provides:               sendmail-devel%{?_isa} = %{version}-%{release}
+Provides:               sendmail-devel = %{version}-%{release}
+Obsoletes:              sendmail-devel < 8.15.2-8
 
 %description milter-devel
 Include files and devel libraries for the milter add-ons as part of sendmail.
@@ -191,11 +191,11 @@ Include files and devel libraries for the milter add-ons as part of sendmail.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package cf
-Summary:            The files needed to reconfigure Sendmail
-Group:              System Environment/Daemons
-Requires:           sendmail = %{version}-%{release}
-BuildArch:          noarch
-Requires:           m4
+Summary:                The files needed to reconfigure Sendmail
+Group:                  System Environment/Daemons
+Requires:               sendmail = %{version}-%{release}
+BuildArch:              noarch
+Requires:               m4
 
 %description cf
 This package includes the configuration files you need to generate the
@@ -208,8 +208,8 @@ your sendmail.cf file.
 # -------------------------------------------------------------------------------------------------------------------- #
 
 %package milter
-Summary:            The sendmail milter library
-Group:              System Environment/Libraries
+Summary:                The sendmail milter library
+Group:                  System Environment/Libraries
 
 %description milter
 The sendmail Mail Filter API (Milter) is designed to allow third-party
@@ -249,8 +249,8 @@ cp devtools/M4/UNIX/{,shared}library.m4
 %patch30 -p1 -b .openssl-1.1.0-ecdhe-fix
 
 for f in RELEASE_NOTES contrib/etrn.0; do
-	iconv -f iso8859-1 -t utf8 -o ${f}{_,} &&
-		touch -r ${f}{,_} && mv -f ${f}{_,}
+    iconv -f iso8859-1 -t utf8 -o ${f}{_,} &&
+        touch -r ${f}{,_} && mv -f ${f}{_,}
 done
 
 sed -i 's|/usr/local/bin/perl|%{_bindir}/perl|' contrib/*.pl
@@ -332,9 +332,9 @@ DIRS="libmilter $DIRS"
 %endif
 
 for i in $DIRS; do
-	pushd $i
-	sh Build -f ../redhat.config.m4
-	popd
+    pushd $i
+    sh Build -f ../redhat.config.m4
+    popd
 done
 
 make -C doc/op op.pdf
@@ -344,13 +344,13 @@ rm -rf %{buildroot}
 
 # create directories
 for d in %{_bindir} %{_sbindir} %{_includedir}/libmilter \
-	%{_libdir} %{_mandir}/man{1,5,8} %{maildir} %{stdir} %{spooldir} \
-	%{_docdir}/sendmail %{sendmailcf} %{_sysconfdir}/smrsh\
-	%{spooldir}/clientmqueue %{_sysconfdir}/sysconfig %{_initrddir} \
-	%{_sysconfdir}/pam.d %{_docdir}/sendmail/contrib \
-	%{_sysconfdir}/NetworkManager/dispatcher.d
+    %{_libdir} %{_mandir}/man{1,5,8} %{maildir} %{stdir} %{spooldir} \
+    %{_docdir}/sendmail %{sendmailcf} %{_sysconfdir}/smrsh\
+    %{spooldir}/clientmqueue %{_sysconfdir}/sysconfig %{_initrddir} \
+    %{_sysconfdir}/pam.d %{_docdir}/sendmail/contrib \
+    %{_sysconfdir}/NetworkManager/dispatcher.d
 do
-	install -m 755 -d %{buildroot}$d
+    install -m 755 -d %{buildroot}$d
 done
 install -m 700 -d %{buildroot}%{spooldir}/mqueue
 
@@ -363,19 +363,19 @@ nameuser=`id -nu`
 namegroup=`id -ng`
 
 Make() {
-	make $@ \
-		DESTDIR=%{buildroot} \
-		LIBDIR=%{_libdir} \
-		MANROOT=%{_mandir}/man \
-		LIBMODE=0755 INCMODE=0644 \
-		SBINOWN=${nameuser} SBINGRP=${namegroup} \
-		UBINOWN=${nameuser} UBINGRP=${namegroup} \
-		MANOWN=${nameuser} MANGRP=${namegroup} \
-		INCOWN=${nameuser} INCGRP=${namegroup} \
-		LIBOWN=${nameuser} LIBGRP=${namegroup} \
-		GBINOWN=${nameuser} GBINGRP=${namegroup} \
-		CFOWN=${nameuser} CFGRP=${namegroup} \
-		CFMODE=0644 MSPQOWN=${nameuser}
+    make $@ \
+        DESTDIR=%{buildroot} \
+        LIBDIR=%{_libdir} \
+        MANROOT=%{_mandir}/man \
+        LIBMODE=0755 INCMODE=0644 \
+        SBINOWN=${nameuser} SBINGRP=${namegroup} \
+        UBINOWN=${nameuser} UBINGRP=${namegroup} \
+        MANOWN=${nameuser} MANGRP=${namegroup} \
+        INCOWN=${nameuser} INCGRP=${namegroup} \
+        LIBOWN=${nameuser} LIBGRP=${namegroup} \
+        GBINOWN=${nameuser} GBINGRP=${namegroup} \
+        CFOWN=${nameuser} CFGRP=${namegroup} \
+        CFMODE=0644 MSPQOWN=${nameuser}
 }
 
 OBJDIR=obj.$(uname -s).$(uname -r).$(uname -m)
@@ -392,7 +392,7 @@ Make install -C $OBJDIR/editmap
 # replace absolute with relative symlinks
 ln -sf ../sbin/makemap %{buildroot}%{_bindir}/makemap
 for f in hoststat mailq newaliases purgestat ; do
-	ln -sf ../sbin/sendmail.sendmail %{buildroot}%{_bindir}/${f}
+    ln -sf ../sbin/sendmail.sendmail %{buildroot}%{_bindir}/${f}
 done
 
 # use /usr/lib, even for 64 bit architectures
@@ -441,7 +441,7 @@ install -p -m 644 cf/cf/submit.mc %{buildroot}%{maildir}/submit.mc
 
 # remove our build info as it causes multiarch conflicts
 sed -i '/##### built by.*on/,+3d' %{buildroot}%{maildir}/{submit,sendmail}.cf \
-	%{buildroot}%{sendmailcf}/cf/submit.cf
+    %{buildroot}%{sendmailcf}/cf/submit.cf
 
 install -p -m 644 %{SOURCE12} %{buildroot}%{maildir}/access
 install -p -m 644 %{SOURCE13} %{buildroot}%{maildir}/domaintable
@@ -452,8 +452,8 @@ install -p -m 644 %{SOURCE17} %{buildroot}%{maildir}/virtusertable
 
 # create db ghosts
 for map in virtusertable access domaintable mailertable ; do
-	touch %{buildroot}%{maildir}/${map}.db
-	chmod 0644 %{buildroot}%{maildir}/${map}.db
+    touch %{buildroot}%{maildir}/${map}.db
+    chmod 0644 %{buildroot}%{maildir}/${map}.db
 done
 
 touch %{buildroot}%{maildir}/aliasesdb-stamp
@@ -498,8 +498,8 @@ touch %{buildroot}%{_sbindir}/makemap
 mv %{buildroot}%{_sbindir}/editmap %{buildroot}%{_sbindir}/editmap.sendmail
 touch %{buildroot}%{_sbindir}/editmap
 for i in mailq newaliases rmail; do
-	mv %{buildroot}%{_bindir}/$i %{buildroot}%{_bindir}/$i.sendmail
-	touch %{buildroot}%{_bindir}/$i
+    mv %{buildroot}%{_bindir}/$i %{buildroot}%{_bindir}/$i.sendmail
+    touch %{buildroot}%{_bindir}/$i
 done
 mv %{buildroot}%{_mandir}/man1/mailq.1 %{buildroot}%{_mandir}/man1/mailq.sendmail.1
 touch %{buildroot}%{_mandir}/man1/mailq.1
@@ -520,8 +520,8 @@ touch %{buildroot}%{_sysconfdir}/pam.d/smtp
 
 # create stub man pages
 for m in man8/hoststat.8 man8/purgestat.8; do
-	[ -f %{buildroot}%{_mandir}/$m ] || 
-		echo ".so man8/sendmail.8" > %{buildroot}%{_mandir}/$m
+    [ -f %{buildroot}%{_mandir}/$m ] ||
+        echo ".so man8/sendmail.8" > %{buildroot}%{_mandir}/$m
 done
 
 %clean
@@ -549,10 +549,10 @@ exit 0
 %postun
 %systemd_postun_with_restart sendmail.service sm-client.service
 if [ $1 -ge 1 ] ; then
-	mta=`readlink %{_sysconfdir}/alternatives/mta`
-	if [ "$mta" == "%{_sbindir}/sendmail.sendmail" ]; then
-		%{_sbindir}/alternatives --set mta %{_sbindir}/sendmail.sendmail
-	fi
+    mta=`readlink %{_sysconfdir}/alternatives/mta`
+    if [ "$mta" == "%{_sbindir}/sendmail.sendmail" ]; then
+        %{_sbindir}/alternatives --set mta %{_sbindir}/sendmail.sendmail
+    fi
 fi
 exit 0
 
@@ -561,29 +561,29 @@ exit 0
 
 # Set up the alternatives files for MTAs.
 %{_sbindir}/alternatives --install %{_sbindir}/sendmail mta %{_sbindir}/sendmail.sendmail 90 \
-	--slave %{_sbindir}/makemap mta-makemap %{_sbindir}/makemap.sendmail \
-	--slave %{_sbindir}/editmap mta-editmap %{_sbindir}/editmap.sendmail \
-	--slave %{_bindir}/mailq mta-mailq %{_bindir}/mailq.sendmail \
-	--slave %{_bindir}/newaliases mta-newaliases %{_bindir}/newaliases.sendmail \
-	--slave %{_bindir}/rmail mta-rmail %{_bindir}/rmail.sendmail \
-	--slave /usr/lib/sendmail mta-sendmail /usr/lib/sendmail.sendmail \
-	--slave %{_sysconfdir}/pam.d/smtp mta-pam %{_sysconfdir}/pam.d/smtp.sendmail \
-	--slave %{_mandir}/man8/sendmail.8.gz mta-sendmailman %{_mandir}/man8/sendmail.sendmail.8.gz \
-	--slave %{_mandir}/man1/mailq.1.gz mta-mailqman %{_mandir}/man1/mailq.sendmail.1.gz \
-	--slave %{_mandir}/man1/newaliases.1.gz mta-newaliasesman %{_mandir}/man1/newaliases.sendmail.1.gz \
-	--slave %{_mandir}/man5/aliases.5.gz mta-aliasesman %{_mandir}/man5/aliases.sendmail.5.gz \
-	--slave %{_mandir}/man8/rmail.8.gz mta-rmailman %{_mandir}/man8/rmail.sendmail.8.gz \
-	--slave %{_mandir}/man8/makemap.8.gz mta-makemapman %{_mandir}/man8/makemap.sendmail.8.gz \
-	--slave %{_mandir}/man8/editmap.8.gz mta-editmapman %{_mandir}/man8/editmap.sendmail.8.gz \
-	--initscript sendmail > /dev/null 2>&1
+    --slave %{_sbindir}/makemap mta-makemap %{_sbindir}/makemap.sendmail \
+    --slave %{_sbindir}/editmap mta-editmap %{_sbindir}/editmap.sendmail \
+    --slave %{_bindir}/mailq mta-mailq %{_bindir}/mailq.sendmail \
+    --slave %{_bindir}/newaliases mta-newaliases %{_bindir}/newaliases.sendmail \
+    --slave %{_bindir}/rmail mta-rmail %{_bindir}/rmail.sendmail \
+    --slave /usr/lib/sendmail mta-sendmail /usr/lib/sendmail.sendmail \
+    --slave %{_sysconfdir}/pam.d/smtp mta-pam %{_sysconfdir}/pam.d/smtp.sendmail \
+    --slave %{_mandir}/man8/sendmail.8.gz mta-sendmailman %{_mandir}/man8/sendmail.sendmail.8.gz \
+    --slave %{_mandir}/man1/mailq.1.gz mta-mailqman %{_mandir}/man1/mailq.sendmail.1.gz \
+    --slave %{_mandir}/man1/newaliases.1.gz mta-newaliasesman %{_mandir}/man1/newaliases.sendmail.1.gz \
+    --slave %{_mandir}/man5/aliases.5.gz mta-aliasesman %{_mandir}/man5/aliases.sendmail.5.gz \
+    --slave %{_mandir}/man8/rmail.8.gz mta-rmailman %{_mandir}/man8/rmail.sendmail.8.gz \
+    --slave %{_mandir}/man8/makemap.8.gz mta-makemapman %{_mandir}/man8/makemap.sendmail.8.gz \
+    --slave %{_mandir}/man8/editmap.8.gz mta-editmapman %{_mandir}/man8/editmap.sendmail.8.gz \
+    --initscript sendmail > /dev/null 2>&1
 
 # Rebuild maps.
 {
-	chown root %{_sysconfdir}/aliases.db %{maildir}/access.db \
-		%{maildir}/mailertable.db %{maildir}/domaintable.db \
-		%{maildir}/virtusertable.db
-	SM_FORCE_DBREBUILD=1 %{maildir}/make
-	SM_FORCE_DBREBUILD=1 %{maildir}/make aliases
+    chown root %{_sysconfdir}/aliases.db %{maildir}/access.db \
+        %{maildir}/mailertable.db %{maildir}/domaintable.db \
+        %{maildir}/virtusertable.db
+    SM_FORCE_DBREBUILD=1 %{maildir}/make
+    SM_FORCE_DBREBUILD=1 %{maildir}/make aliases
 } > /dev/null 2>&1
 
 # Move existing SASL2 config to new location.
@@ -595,9 +595,9 @@ exit 0
 
 # Create sm-client.st if it doesn't exist
 if [ ! -f %{spooldir}/clientmqueue/sm-client.st ]; then
-	touch %{spooldir}/clientmqueue/sm-client.st
-	chown smmsp:smmsp %{spooldir}/clientmqueue/sm-client.st
-	chmod 0660 %{spooldir}/clientmqueue/sm-client.st
+    touch %{spooldir}/clientmqueue/sm-client.st
+    chown smmsp:smmsp %{spooldir}/clientmqueue/sm-client.st
+    chmod 0660 %{spooldir}/clientmqueue/sm-client.st
 fi
 
 exit 0
@@ -605,7 +605,7 @@ exit 0
 %preun
 %systemd_preun sendmail.service sm-client.service
 if [ $1 = 0 ]; then
-	%{_sbindir}/alternatives --remove mta %{_sbindir}/sendmail.sendmail
+    %{_sbindir}/alternatives --remove mta %{_sbindir}/sendmail.sendmail
 fi
 exit 0
 
@@ -619,8 +619,8 @@ exit 0
 
 %preun sysvinit
 if [ "$1" = 0 ]; then
-	%{_initrddir}/sendmail stop >/dev/null 2>&1 ||:
-	/sbin/chkconfig --del sendmail >/dev/null 2>&1 ||:
+    %{_initrddir}/sendmail stop >/dev/null 2>&1 ||:
+    /sbin/chkconfig --del sendmail >/dev/null 2>&1 ||:
 fi
 
 %postun sysvinit
@@ -1128,7 +1128,7 @@ fi
 - rebuild against db4-4.7
 
 * Sat Mar 29 2008 Dennis Gilmore <dennis@ausil.us> 8.14.2-4
-- add sparcv9 to the -fPIE list 
+- add sparcv9 to the -fPIE list
 
 * Fri Feb  8 2008 Thomas Woerner <twoerner@redhat.com> 8.14.2-3
 - added server(smtp) provide (rhbz#380621)
@@ -1384,7 +1384,7 @@ fi
 
 * Sat Dec 13 2003 Jeff Johnson <jbj@jbj.org> 8.12.10-5
 - rebuild against db-4.2.52.
- 
+
 * Thu Dec 11 2003 Florian La Roche <Florian.LaRoche@redhat.de>
 - fix pam alternatives handling
 - add patch from Jakub Jelinek for PIE
@@ -1394,7 +1394,7 @@ fi
 - add makecert.sh script to -doc subpackage
 - add cert paths to sendmail.mc
 
-* Wed Nov 26 2003 Karsten Hopp <karsten@redhat.de> 
+* Wed Nov 26 2003 Karsten Hopp <karsten@redhat.de>
 - fix alternatives (#109313)
 - enable TLS
 
@@ -1407,7 +1407,7 @@ fi
 
 * Thu Sep 25 2003 Jeff Johnson <jbj@jbj.org> 8.12.10-1.2
 - rebuild against db-4.2.42.
- 
+
 * Thu Sep 18 2003 Florian La Roche <Florian.LaRoche@redhat.de>
 - update to 8.12.10
 
@@ -1521,11 +1521,11 @@ fi
 * Mon Dec 02 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - add the following changes from Adrian Havill <havill@redhat.com>
   to our default sendmail.mc file:
-	- added commented-out-by-default common AUTH/SSL examples
-	- updated m4 example and rpm reference
-	- added more comment documentation
-	- add commented out confAUTO_REBUILD example
-	- improve description about MASQUERADE_AS
+    - added commented-out-by-default common AUTH/SSL examples
+    - updated m4 example and rpm reference
+    - added more comment documentation
+    - add commented out confAUTO_REBUILD example
+    - improve description about MASQUERADE_AS
 
 * Mon Nov 18 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - add to submit.mc: define(`_MTA_HOST_', `[127.0.0.1]')
@@ -1567,9 +1567,9 @@ fi
 
 * Wed Jul 24 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - suggestions form Stephane Lentz:
-	- add correct include statement into submit.mc (like sendmail.mc)
-	- add commented out further suggestions into submit.mc
-	- disable ident lookups
+    - add correct include statement into submit.mc (like sendmail.mc)
+    - add commented out further suggestions into submit.mc
+    - disable ident lookups
 
 * Thu Jul 11 2002 Florian La Roche <Florian.LaRoche@redhat.de>
 - fix initscript for the second daemon and pidfile location #67910
@@ -1719,9 +1719,9 @@ fi
 - add "localhost.localdomain" to the list of hostnames accepted
   for local delivery "Cw" in /etc/mail/sendmail.mc
 - add patches from Pekka Savola <pekkas@netcore.fi>
-	- Enable IPv6 at compile time, patch for glibc 2.2 from PLD
-	- Add a commented-out IPv6 daemon .mc line to sendmail.mc
-	- buildrequire: openldap-devel, cyrus-sasl-devel
+    - Enable IPv6 at compile time, patch for glibc 2.2 from PLD
+    - Add a commented-out IPv6 daemon .mc line to sendmail.mc
+    - buildrequire: openldap-devel, cyrus-sasl-devel
 
 * Fri Mar  2 2001 Nalin Dahyabhai <nalin@redhat.com>
 - rebuild in new environment
@@ -1731,11 +1731,11 @@ fi
 
 * Wed Feb 21 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - add changes from Christopher McCrory <chrismcc@pricegrabber.com>:
-	- prepare /etc/mail/Makefile for more maps not shipped with this rpm
-	- changed sendmail.mc to include some more commented out options,
-	  so that people are directly pointed at important options
-	- add /etc/pam.d/smtp for AUTH
-	- add FEATURE(use_ct_file) and /etc/mail/trusted-users
+    - prepare /etc/mail/Makefile for more maps not shipped with this rpm
+    - changed sendmail.mc to include some more commented out options,
+      so that people are directly pointed at important options
+    - add /etc/pam.d/smtp for AUTH
+    - add FEATURE(use_ct_file) and /etc/mail/trusted-users
 
 * Fri Feb 16 2001 Tim Powers <timp@redhat.com>
 - don't obsolete postfix and exim, only conflict (for RHN purposes)
@@ -1759,7 +1759,7 @@ fi
 * Tue Jan 23 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - enable daemon mode again, but only listen to the loopback device
   instead of all devices.
-- do not include check.tar with old anti-spam rules 
+- do not include check.tar with old anti-spam rules
 
 * Fri Jan 12 2001 Florian La Roche <Florian.LaRoche@redhat.de>
 - fix configuration of /etc/aliases
@@ -1925,7 +1925,7 @@ fi
 - correxct dangling symlinks.
 - check for map file existence in %%post.
 
-* Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com> 
+* Sun Mar 21 1999 Cristian Gafton <gafton@redhat.com>
 - auto rebuild in the new build environment (release 3)
 
 * Fri Mar 19 1999 Jeff Johnson <jbj@redhat.com>
